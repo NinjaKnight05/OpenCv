@@ -50,7 +50,7 @@ while True:
                     left_eye.append((x,y))
 
                 for idx in RIGHT_EYE:
-                     landmark = face.landmark[idx]
+                     landmark = face.landmark[idx]  #index of right eye
                      x = int(landmark.x*w)
                      y = int(landmark.y*h)
                      right_eye.append((x,y))
@@ -61,13 +61,17 @@ while True:
                 ear = (left_ear+right_ear)/2
 
                 for point in left_eye:
-                  cv2.circle(frame, point, 2, (0,255,0), -1)
+                  cv2.circle(frame, point, 2, (0,255,0), -1) #frame - image, point- where circle will be drown, 2 - radius of circle , -1 thicknes of dot 
 
                 for point in right_eye:
-                  cv2.circle(frame, point, 2, (0,255,255), -1)
+                  cv2.circle(frame, point, 2, (0,255,0), -1)
                 if ear < 0.20 :
+                     closed_frames +=1
                      cv2.putText(frame,'Eyes Closed',(30,30),cv2.FONT_HERSHEY_SIMPLEX,1,(0,0,255),2)
-                     winsound.Beep(1000,200)
+                else:
+                    closed_frames = 0
+                if closed_frames > 20:
+                    winsound.Beep(1000,200)
                 
 
     cv2.imshow("Blink Detection", frame) 
